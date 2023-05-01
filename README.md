@@ -1,7 +1,7 @@
 # PDF Tools (Web)
 This project aims to provide a powerful web-based toolbox of different PDF-related features.
 
-**Try and install PDF Tools here: [https://pdf.wolke7.cloud](https://pdf.wolke7.cloud)**.
+**Try or install PDF Tools here: [https://pdf.wolke7.cloud](https://pdf.wolke7.cloud)**.
 
 ## Features
 
@@ -19,8 +19,23 @@ The web app hosted at **[https://pdf.wolke7.cloud](https://pdf.wolke7.cloud)** i
 You can use it offline (after first visit) and even install it to have it easily available.
 
 ## Screenshots
-<div style="display: flex; justify-content: center;">
+<p align="center">
 <img style="display: block; width: 45%" src="https://user-images.githubusercontent.com/20766652/235502732-4b21e6f1-5fdf-4ce7-a9cd-438dfb633f98.png"/>
 <img  style="display: block; width: 45%" src="https://user-images.githubusercontent.com/20766652/235502851-e78a3e23-e9d6-48d5-932d-1ac302ad860a.png"/>
-</div>
+</p>
+<p align="center">
 <img src="https://user-images.githubusercontent.com/20766652/235502512-d9395cc6-a2fb-40dc-9674-6f9103eb06ab.png"/>
+</p>
+
+
+## Project Structure
+This project uses Typescript.
+The Web App (PWA) is implemented using Next.JS (React) and Tailwind CSS.
+
+The main PDF merging and outline processing work is done in the following files: `lib/pdf-outline-helper.ts` and `components/PDFMagic.tsx`.
+
+This project makes heavy use of the `pdf-lib` JavaScript library for PDF manipulation.
+See also [https://pdf-lib.js.org](https://pdf-lib.js.org), [https://github.com/Hopding/pdf-lib](https://github.com/Hopding/pdf-lib) and its fork used in this project: [https://github.com/cantoo-scribe/pdf-lib](https://github.com/cantoo-scribe/pdf-lib).
+
+
+
