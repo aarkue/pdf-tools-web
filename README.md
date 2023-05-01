@@ -1,3 +1,5 @@
+<img style="width: 200px" src="https://user-images.githubusercontent.com/20766652/235507439-7ffdd1f8-56b7-4a5a-817e-be2ebc06d50b.svg" alt="PDF Tools Logo showing a PDF file icon with a wrench" />
+
 # PDF Tools (Web)
 This project aims to provide a powerful web-based toolbox of different PDF-related features.
 
@@ -20,11 +22,11 @@ You can use it offline (after first visit) and even install it to have it easily
 
 ## Screenshots
 <p align="center">
-<img style="display: block; width: 45%" src="https://user-images.githubusercontent.com/20766652/235502732-4b21e6f1-5fdf-4ce7-a9cd-438dfb633f98.png"/>
-<img  style="display: block; width: 45%" src="https://user-images.githubusercontent.com/20766652/235502851-e78a3e23-e9d6-48d5-932d-1ac302ad860a.png"/>
+<img style="display: block; width: 45%" src="https://user-images.githubusercontent.com/20766652/235502732-4b21e6f1-5fdf-4ce7-a9cd-438dfb633f98.png" alt="Screenshot of user interface in light mode"/>
+<img  style="display: block; width: 45%" src="https://user-images.githubusercontent.com/20766652/235502851-e78a3e23-e9d6-48d5-932d-1ac302ad860a.png" alt="Screenshot of user interface in dark mode"/>
 </p>
 <p align="center">
-<img src="https://user-images.githubusercontent.com/20766652/235502512-d9395cc6-a2fb-40dc-9674-6f9103eb06ab.png"/>
+<img src="https://user-images.githubusercontent.com/20766652/235502512-d9395cc6-a2fb-40dc-9674-6f9103eb06ab.png" alt="Screenshot of user interface in light mode"/>
 </p>
 
 
