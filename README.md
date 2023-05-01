@@ -1,4 +1,7 @@
+
+<p align="center">
 <img style="width: 200px" src="https://user-images.githubusercontent.com/20766652/235507439-7ffdd1f8-56b7-4a5a-817e-be2ebc06d50b.svg" alt="PDF Tools Logo showing a PDF file icon with a wrench" />
+</p>
 
 # PDF Tools (Web)
 This project aims to provide a powerful web-based toolbox of different PDF-related features.
