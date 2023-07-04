@@ -55,7 +55,7 @@ export function getNamedDestinations(doc: PDFDocument) {
     if (entries !== undefined) {
       for (let i = 0; i < entries.size(); i += 2) {
         const tmp = doc.context.lookup(entries.get(i + 1));
-        if(tmp !== undefined && tmp instanceof PDFDict){
+        if (tmp !== undefined && tmp instanceof PDFDict) {
           const destEntry = tmp;
           const pageIndex = pageRefs.indexOf(destEntry.lookup(PDFName.of("D"), PDFArray).asArray()[0] as PDFRef);
           namedDestMap.set(entries.get(i).toString(), { destEntry, pageIndex });
@@ -70,7 +70,7 @@ export function createOutlineItem(
   pdfDoc: PDFDocument,
   title: string,
   parent: PDFRef,
-  nextOrPrev: PDFRef,
+  nextOrPrev: PDFRef, // Prev only iff. isLast is true
   page: PDFRef,
   isLast = false,
   children: PDFRef[] = []
@@ -100,7 +100,7 @@ function parseOutlineRecursive(doc: PDFDocument, firstEl: PDFDict) {
   while (el !== undefined) {
     let title: string | undefined = undefined;
     if (el.has(PDFName.of("Title"))) {
-      title = (el.lookup(PDFName.of("Title")) as PDFHexString|PDFString).decodeText();
+      title = (el.lookup(PDFName.of("Title")) as PDFHexString | PDFString).decodeText();
     }
     let dest: PDFArray | undefined = undefined;
     if (el.has(PDFName.of("Dest"))) {
@@ -133,7 +133,7 @@ export type ParsedOutlineItem = {
   children?: ParsedOutlineItem[];
 };
 
-export const MERGED_OUTLINE_MODES = {"retainOutlineAsOneEntry": "Retain outline entries as one entry per file","retainOutlineEntries": "Retain outline entries", "oneEntryPerFile": "Create one outline entry per file", "none": "Don't create an outline"} as const;
+export const MERGED_OUTLINE_MODES = { "retainOutlineAsOneEntry": "Retain outline entries as one entry per file", "retainOutlineEntries": "Retain outline entries", "oneEntryPerFile": "Create one outline entry per file", "none": "Don't create an outline" } as const;
 export type MergedOutlineMode = keyof (typeof MERGED_OUTLINE_MODES);
 
 export function parseOutline(
@@ -154,7 +154,7 @@ export function parseOutline(
   } catch (e) {
     console.log("No named destinations found. This is not necessarily an error!", e);
   }
-  if(!doc.catalog.has(PDFName.of("Outlines"))){
+  if (!doc.catalog.has(PDFName.of("Outlines"))) {
     if (mode === "retainOutlineEntries") {
       return [];
     }
@@ -245,19 +245,19 @@ export function writeOutlineToDoc(doc: PDFDocument, outline: ParsedOutlineItem[]
     if (outline[i].children !== undefined) {
       childRefs = writeOutlineToDoc(doc, outline[i].children!, outlineItemRefs[i]);
     }
-    const isLast =  i == outline.length - 1;
-    let nextOrPrev : PDFRef;
-    if(outline.length === 1){
+    const isLast = i == outline.length - 1;
+    let nextOrPrev: PDFRef;
+    if (outline.length === 1) {
       // Only me, myself, and I
       nextOrPrev = outlineItemRefs[0];
-    }else{
+    } else {
       nextOrPrev = isLast ? outlineItemRefs[i - 1] : outlineItemRefs[i + 1]
     }
     const outlineItem = createOutlineItem(
       doc,
       outline[i].title || "-",
       parent,
-      nextOrPrev, //prev or next
+      nextOrPrev, //prev or next (prev only if this is the last one)
       pageRefs[outline[i].page!],
       isLast,
       childRefs
