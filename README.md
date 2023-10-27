@@ -19,6 +19,17 @@ There are different options for the outline of the merged file available:
 - _Create one outline entry per file_: Create a single outline entry for each of the documents, using the file name as a title.
 - _Don't create an outline_: Don't create any outline for the merged PDF file.
 
+### Reordering PDF Pages
+Visually reorder the pages of a PDF file.
+
+<p align="center">
+<img style="display: block; width: 45%" src="https://github.com/aarkue/pdf-tools-web/assets/20766652/441612ee-56e8-4b2c-bedc-26789e5a2a73" alt="Gif of visual reordering feature"/>
+</p>
+
+
+
+
+
 ### Offline Use
 The web app hosted at **[https://pdf.wolke7.cloud](https://pdf.wolke7.cloud)** is a progressive web app (PWA).
 You can use it offline (after first visit) and even install it to have it easily available.
