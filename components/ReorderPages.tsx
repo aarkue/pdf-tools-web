@@ -6,12 +6,12 @@ import Button from "./button";
 import { PDFDocument } from "@cantoo/pdf-lib";
 import { downloadFile } from "@/helper/download-file";
 import { debounce } from "lodash";
-const DEFAULT_SCALE = 0.4;
 export default function ReorderPages() {
+  const defaultScale = window.innerWidth <= 500 ? 0.15 : 0.4;
   const [file, setFile] = useState<File>();
   const [pdfDoc, setPDFDoc] = useState<PDFDocumentProxy>();
   const [pageOrder, setPageOrder] = useState<{ id: number }[]>([]);
-  const [scale, setScale] = useState(DEFAULT_SCALE);
+  const [scale, setScale] = useState(defaultScale);
   const scaleHandler = useCallback(
     debounce((newScale: number) => {
       setScale(newScale);
@@ -62,21 +62,20 @@ export default function ReorderPages() {
               Download Result
             </Button>
           </div>
-          <div className="w-fit mx-auto text-center">
-            <h3 className="text-2xl font-semibold text-blue-500">Reorder Pages</h3>
-            <details className="text-sm text-gray-700 dark:text-gray-300">
-              <summary>Instructions</summary>
-              <p className="mx-auto mb-2">
+          <div className="w-fit mx-auto text-center my-2">
+            <h3 className="text-2xl font-semibold text-blue-500 dark:text-blue-400">Reorder Pages</h3>
+            <details className=" text-gray-700 dark:text-gray-300 px-2 p-1 rounded-md border bg-slate-50 dark:bg-slate-800 dark:border-slate-600">
+              <summary className="cursor-pointer">Options & Instructions</summary>
+              <p className="mx-auto mb-2 text-sm">
                 Drag to reorder the pages of the PDF below.
                 <br />
                 Finally, download the processed PDF using the <i>Download Result</i> button.
               </p>
-            </details>
             <label className="flex flex-col w-fit text-center gap-x-2 mx-auto text-lg text-gray-700 dark:text-gray-300 ">
               Preview Scale
               <input
                 type="range"
-                defaultValue={DEFAULT_SCALE}
+                defaultValue={defaultScale}
                 step={0.01}
                 max={2}
                 min={0.01}
@@ -85,6 +84,7 @@ export default function ReorderPages() {
                 }}
               />
             </label>
+            </details>
           </div>
           <ReactSortable
             tag="ol"
@@ -119,7 +119,7 @@ export default function ReorderPages() {
               >
                 <MiniPDFPage key={i} doc={pdfDoc} pageIndex={p.id} scale={scale} />
 
-                <span className="absolute top-2 left-4 text-gray-700 bg-white/80 rounded-md block px-2 py-1 border z-10 font-medium">
+                <span className="absolute top-1 left-2 text-gray-700 bg-white/80 rounded-md block px-1 py-0.5 xlpx-2 xl:py-1 border z-10 text-xs xl:text-base">
                   {"#"}
                   {i + 1}
                 </span>

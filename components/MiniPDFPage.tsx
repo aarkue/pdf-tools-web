@@ -27,7 +27,7 @@ export default function MiniPDFPage(props: MiniPDFPageProps) {
 
   return (
     <div className="relative">
-      <span className="absolute bottom-2 left-1/2 -translate-x-1/2 text-gray-700 bg-white/80 rounded-md block px-2 py-1 border z-10 font-medium">
+      <span className="absolute bottom-2 left-1/2 -translate-x-1/2 text-gray-700 bg-white/80 rounded-md block px-1 py-0.5 xlpx-2 xl:py-1 border z-10 text-xs xl:text-base">
         Page {props.pageIndex + 1}
       </span>
       <canvas className="border " ref={canvasRef}></canvas>
