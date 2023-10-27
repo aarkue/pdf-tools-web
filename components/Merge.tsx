@@ -8,7 +8,7 @@ import {
 } from "@/lib/pdf-outline-helper";
 import { PDFDocument, PDFArray, PDFName, PDFDict } from "@cantoo/pdf-lib";
 import { useState, useRef } from "react";
-import { BsSortAlphaDown, BsSortAlphaUp } from "react-icons/bs";
+import { BsSortAlphaDown, BsSortAlphaUp, BsTrash } from "react-icons/bs";
 import { ReactSortable } from "react-sortablejs";
 import Button from "./button";
 import { downloadFile } from "@/helper/download-file";
@@ -24,10 +24,10 @@ export default function Merge() {
     let p = null;
     for (let i = 0; i < files.length; i++) {
       const pdf = await PDFDocument.load(await files[i].file.arrayBuffer());
-      try{
+      try {
         const namedDest = getNamedDestinations(pdf);
         namedDests.push(namedDest);
-      }catch(e){
+      } catch (e) {
         console.error(e);
       }
       const o = parseOutline(
@@ -74,7 +74,7 @@ export default function Merge() {
     console.log({ dests });
 
     const mergedPdfFile = await mergedPdf.save();
-    downloadFile(await new Response(mergedPdfFile).blob(),"merged.pdf");
+    downloadFile(await new Response(mergedPdfFile).blob(), "merged.pdf");
   }
 
   return (
@@ -141,10 +141,23 @@ export default function Merge() {
           {files.map((e, i) => (
             <li
               key={e.id}
-              className="cursor-pointer bg-white dark:bg-slate-800 m-1 pl-3 p-1 rounded-lg border dark:border-slate-700 hover:bg-blue-100 dark:hover:bg-blue-900"
+              className="cursor-pointer flex justify-between bg-white dark:bg-slate-800 m-1 pl-3 p-1 rounded-lg border dark:border-slate-700 hover:bg-blue-100 dark:hover:bg-blue-900"
             >
-              <span className="text-gray-400 mr-2">{i + 1}.</span>
-              {e.file.name}
+              <span>
+                <span className="text-gray-400 mr-2">{i + 1}.</span>
+                {e.file.name}
+              </span>
+              <button
+                title="Remove PDF from list"
+                className="p-1 text-red-700 dark:text-red-500 hover:bg-red-200 hover:text-red-800 dark:hover:bg-red-900 dark:hover:text-red-400 rounded-md"
+                onClick={(ev) => {
+                  const newFiles = [...files];
+                  newFiles.splice(i, 1);
+                  setFiles(newFiles);
+                }}
+              >
+                <BsTrash />
+              </button>
             </li>
           ))}
         </ReactSortable>
@@ -167,7 +180,7 @@ export default function Merge() {
       </div>
       <br />
       <div className="w-full flex justify-end">
-        <Button size="lg" className="mt-1 bg-white dark:bg-slate-800" onClick={merge}>
+        <Button disabled={files.length < 1} size="lg" className="mt-1 bg-white dark:bg-slate-800" onClick={merge}>
           Merge
         </Button>
       </div>
