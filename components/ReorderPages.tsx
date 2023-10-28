@@ -6,6 +6,7 @@ import Button from "./button";
 import { PDFDocument } from "@cantoo/pdf-lib";
 import { downloadFile } from "@/helper/download-file";
 import { debounce } from "lodash";
+import { BsTrash } from "react-icons/bs";
 export default function ReorderPages() {
   const defaultScale = window.innerWidth <= 500 ? 0.15 : 0.4;
   const [file, setFile] = useState<File>();
@@ -52,7 +53,7 @@ export default function ReorderPages() {
             setFile(e.currentTarget.files.item(0)!);
           }
         }}
-        className="2xl:p-12 p-5 my-4 rounded-lg border border-blue-700 bg-blue-50 dark:bg-slate-800 dark:border-slate-700 border-dashed block mx-auto"
+        className="2xl:p-12 max-w-full p-5 my-4 rounded-lg border border-blue-700 bg-blue-50 dark:bg-slate-800 dark:border-slate-700 border-dashed block mx-auto"
         type="file"
       />
       {pdfDoc && (
@@ -71,21 +72,40 @@ export default function ReorderPages() {
                 <br />
                 Finally, download the processed PDF using the <i>Download Result</i> button.
               </p>
-            <label className="flex flex-col w-fit text-center gap-x-2 mx-auto text-lg text-gray-700 dark:text-gray-300 ">
-              Preview Scale
-              <input
-                type="range"
-                defaultValue={defaultScale}
-                step={0.01}
-                max={2}
-                min={0.01}
-                onChange={(ev) => {
-                  scaleHandler(ev.currentTarget.valueAsNumber);
+              <label className="flex flex-col w-fit text-center gap-x-2 mx-auto text-lg text-gray-700 dark:text-gray-300 ">
+                Preview Scale
+                <input
+                  type="range"
+                  defaultValue={defaultScale}
+                  step={0.01}
+                  max={2}
+                  min={0.05}
+                  onChange={(ev) => {
+                    scaleHandler(ev.currentTarget.valueAsNumber);
+                  }}
+                />
+              </label>
+              <Button
+                className="my-1"
+                onClick={(ev) => {
+                  setPageOrder([...Array(pdfDoc.numPages).keys()].map((i) => ({ id: i })));
                 }}
-              />
-            </label>
+              >
+                Reset Pages
+              </Button>
             </details>
           </div>
+          {pageOrder.length === 0 && (
+            <div className="mx-auto w-fit my-6">
+              <Button
+                onClick={(ev) => {
+                  setPageOrder([...Array(pdfDoc.numPages).keys()].map((i) => ({ id: i })));
+                }}
+              >
+                Reset Pages
+              </Button>
+            </div>
+          )}
           <ReactSortable
             tag="ol"
             className="h-full flex flex-wrap justify-center items-center"
@@ -123,6 +143,17 @@ export default function ReorderPages() {
                   {"#"}
                   {i + 1}
                 </span>
+                <button
+                  className="absolute top-0 right-0 p-1 text-red-500 bg-transparent rounded-md hover:bg-red-400 hover:text-black z-10"
+                  title="Remove page"
+                  onClick={(ev) => {
+                    const newPageOrder = [...pageOrder];
+                    newPageOrder.splice(i, 1);
+                    setPageOrder(newPageOrder);
+                  }}
+                >
+                  <BsTrash />
+                </button>
                 <div className="absolute top-0 left-0 w-full h-full bg-green-400/0 group-hover:bg-blue-400/30 outline outline-2 outline-transparent group-hover:outline-blue-400 dark:group-hover:outline-blue-500">
                   {" "}
                 </div>
