@@ -91,7 +91,7 @@ export default function Merge() {
           setFiles([...files, ...addedFiles.map((f) => ({ id: f.name.toLowerCase() + Date.now(), file: f }))]);
           e.currentTarget.value = "";
         }}
-        className="2xl:p-12 p-5 my-4 rounded-lg border border-blue-700 bg-blue-50 dark:bg-slate-800 dark:border-slate-700 border-dashed block mx-auto"
+        className="2xl:p-12 max-w-full p-5 my-4 rounded-lg border border-blue-700 bg-blue-50 dark:bg-slate-800 dark:border-slate-700 border-dashed block mx-auto"
         // ref={fileInputRef}
         type="file"
         multiple
