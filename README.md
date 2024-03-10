@@ -26,6 +26,12 @@ Visually reorder the pages of a PDF file.
 <img style="display: block; width: 45%" src="https://github.com/aarkue/pdf-tools-web/assets/20766652/441612ee-56e8-4b2c-bedc-26789e5a2a73" alt="Gif of visual reordering feature"/>
 </p>
 
+### Extract Text
+Extract and view or copy the text content of a PDF file, or individual pages.
+<p align="center">
+<img style="display: block; width: 45%" src="https://github.com/aarkue/pdf-tools-web/assets/20766652/b4f0c028-723d-495c-a0e6-d622d0fba701" alt="Gif of text extraction feature"/>
+</p>
+
 
 
 
