@@ -13,6 +13,7 @@ export default function ReorderPages() {
   const [pdfDoc, setPDFDoc] = useState<PDFDocumentProxy>();
   const [pageOrder, setPageOrder] = useState<{ id: number }[]>([]);
   const [scale, setScale] = useState(defaultScale);
+  const [loading, setLoading] = useState(false);
   const scaleHandler = useCallback(
     debounce((newScale: number) => {
       setScale(newScale);
@@ -21,15 +22,24 @@ export default function ReorderPages() {
   );
 
   async function downloadReorderedPDF() {
-    const resPDF = await PDFDocument.load(await file!.arrayBuffer());
-    const allPages = resPDF.getPages();
-    for (const pageIndex of resPDF.getPageIndices()) {
-      resPDF.removePage(pageIndex);
-      resPDF.insertPage(pageIndex, allPages[pageOrder[pageIndex].id]);
-    }
+    setLoading(true);
+    try {
+      const newPDF = await PDFDocument.create();
+      const inputPDF = await PDFDocument.load(await file!.arrayBuffer());
+      const pages = await newPDF.copyPages(
+        inputPDF,
+        pageOrder.map((p) => p.id)
+      );
+      for (let i = 0; i < pages.length; i++) {
+        newPDF.insertPage(i, pages[i]);
+      }
 
-    const resPDFSaved = await resPDF.save();
-    downloadFile(await new Response(resPDFSaved).blob(), "reordered.pdf");
+      const resPDFSaved = await newPDF.save();
+      const firstFileNamePart = file?.name.split(".pdf")[0];
+      downloadFile(await new Response(resPDFSaved).blob(), firstFileNamePart + "_reordered.pdf");
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -58,13 +68,13 @@ export default function ReorderPages() {
       />
       {pdfDoc && (
         <>
-          <div className="w-full flex justify-end mb-2">
-            <Button size="lg" className="mt-1 bg-white dark:bg-slate-800" onClick={downloadReorderedPDF}>
+          <div className="w-full flex justify-center mb-2">
+            <Button isLoading={loading} size="lg" className="mt-1 bg-white dark:bg-slate-800" onClick={downloadReorderedPDF}>
               Download Result
             </Button>
           </div>
           <div className="w-fit mx-auto text-center my-2">
-            <h3 className="text-2xl font-semibold text-blue-500 dark:text-blue-400">Reorder Pages</h3>
+            <h3 className="text-3xl font-semibold text-blue-500 dark:text-blue-400 mb-2">Reorder/Remove Pages</h3>
             <details className=" text-gray-700 dark:text-gray-300 px-2 p-1 rounded-md border bg-slate-50 dark:bg-slate-800 dark:border-slate-600">
               <summary className="cursor-pointer">Options & Instructions</summary>
               <p className="mx-auto mb-2 text-sm">
@@ -137,14 +147,14 @@ export default function ReorderPages() {
                 key={p.id}
                 className="cursor-pointer relative h-fit bg-white dark:bg-slate-800 m-1 rounded-lg border dark:border-slate-700 hover:bg-blue-100 dark:hover:bg-blue-900 group"
               >
-                <MiniPDFPage key={i} doc={pdfDoc} pageIndex={p.id} scale={scale} />
+                <MiniPDFPage doc={pdfDoc} pageIndex={p.id} scale={scale} />
 
                 <span className="absolute top-1 left-2 text-gray-700 bg-white/80 rounded-md block px-1 py-0.5 xlpx-2 xl:py-1 border z-10 text-xs xl:text-base">
                   {"#"}
                   {i + 1}
                 </span>
                 <button
-                  className="absolute top-0 right-0 p-1 text-red-500 bg-transparent rounded-md hover:bg-red-400 hover:text-black z-10"
+                  className="absolute top-0 right-0 p-1 text-red-500 bg-transparent rounded-md hover:bg-red-500 hover:text-black z-10"
                   title="Remove page"
                   onClick={(ev) => {
                     const newPageOrder = [...pageOrder];
@@ -152,7 +162,7 @@ export default function ReorderPages() {
                     setPageOrder(newPageOrder);
                   }}
                 >
-                  <BsTrash />
+                  <BsTrash size={24} />
                 </button>
                 <div className="absolute top-0 left-0 w-full h-full bg-green-400/0 group-hover:bg-blue-400/30 outline outline-2 outline-transparent group-hover:outline-blue-400 dark:group-hover:outline-blue-500">
                   {" "}
@@ -160,8 +170,8 @@ export default function ReorderPages() {
               </li>
             ))}
           </ReactSortable>
-          <div className="w-full flex justify-end mb-2">
-            <Button size="lg" className="mt-1 bg-white dark:bg-slate-800" onClick={downloadReorderedPDF}>
+          <div className="w-full flex justify-center my-2">
+            <Button isLoading={loading} size="lg" className="mt-1 bg-white dark:bg-slate-800" onClick={downloadReorderedPDF}>
               Download Result
             </Button>
           </div>
