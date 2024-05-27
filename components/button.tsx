@@ -24,17 +24,17 @@ export default function Button(props: React.PropsWithChildren<ButtonProps>) {
       disabled={props.disabled || props.isLoading}
       accessKey={props.accessKey}
       className={`${
-        props.disabled || props.isLoading ? "bg-gray-300 dark:bg-gray-700 hover:bg-gray-300 focus:outline-none disabled:opacity-50" : ""
+        props.disabled || props.isLoading ? "bg-gray-300 dark:bg-gray-700 enabled:hover:bg-gray-300 focus:outline-none disabled:opacity-50" : ""
       } ${
         props.className || ""
       }  transition  duration-50
       ${(props.size === 'sm') ?  'h-6 px-1 py-1 xl:px-1 xl:py-1 text-xs' : ''}
       ${(props.size == null || props.size === 'md') ?  'h-8 px-2 py-1 xl:px-3 xl:py-2 text-sm font-semibold' : ''}
       ${(props.size === 'lg') ?  'h-816 px-3 py-2 xl:px-4 xl:py-3 text-md font-semibold' : ''}
-      ${(props.variant == null || props.variant === 'normal') ?  'hover:bg-blue-200 border dark:border-slate-700 hover:bg-primary-500  dark:hover:bg-blue-700' : ''}
-      ${(props.variant === 'danger') ?  ' text-red-600 hover:bg-red-500 border border-red-600/20 hover:border-red-700 hover:text-white' : ''}
-      ${(props.variant === 'ghost') ?  'hover:bg-blue-200 hover:bg-primary-500  dark:hover:bg-blue-700 ' : ''}
-      rounded-md hover:no-underline inline-flex items-center justify-center  `}
+      ${(props.variant == null || props.variant === 'normal') ?  'enabled:hover:bg-blue-200 border dark:border-slate-700 enabled:hover:bg-primary-500  dark:enabled:hover:bg-blue-700' : ''}
+      ${(props.variant === 'danger') ?  ' text-red-600 enabled:hover:bg-red-500 border border-red-600/20 enabled:hover:border-red-700 enabled:hover:text-white' : ''}
+      ${(props.variant === 'ghost') ?  'hover:bg-blue-200 enabled:hover:bg-primary-500  dark:enabled:hover:bg-blue-700 ' : ''}
+      rounded-md enabled:hover:no-underline inline-flex items-center justify-center  `}
       onClick={props.onClick}
       onKeyDownCapture={props.onKeyDownCapture}
     >
