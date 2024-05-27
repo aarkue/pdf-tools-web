@@ -4,11 +4,13 @@ import Merge from "./Merge";
 import SmallAbout from "./small-about";
 import ReorderPages from "./ReorderPages";
 import ExtractText from "./ExtractText";
+import Crop from "./Crop";
 const MERGE_OP = "Merge";
 const SPLIT_OP = "Split";
 const REORDER_OP = "Reorder or Remove Pages";
 const EXTRACT_TEXT_OP = "Extract Text";
-const ALL_OPERATION_OPTIONS = [MERGE_OP, REORDER_OP, EXTRACT_TEXT_OP, /*,SPLIT_OP*/] as const;
+const CROP_OP = "Auto-Crop"
+const ALL_OPERATION_OPTIONS = [MERGE_OP, REORDER_OP, EXTRACT_TEXT_OP, /*,SPLIT_OP*/, CROP_OP] as const;
 type OperationMode = (typeof ALL_OPERATION_OPTIONS)[number];
 
 export default function PDFMagic() {
@@ -23,7 +25,7 @@ export default function PDFMagic() {
     <>
       <h1 className="text-3xl mb-1">PDF Tools</h1>
       <h2 className="text-xl leading-tight tracking-tight mb-4">
-        Merge, Reorder or Process
+        Merge, Reorder, Crop, or Process
         PDFs
       </h2>
       <div className="mb-5">
@@ -43,6 +45,7 @@ export default function PDFMagic() {
       {operationMode === MERGE_OP && <Merge />}
       {operationMode === REORDER_OP && <ReorderPages />}
       {operationMode === EXTRACT_TEXT_OP && <ExtractText />}
+      {operationMode === CROP_OP && <Crop/>}
       <SmallAbout />
     </>
   );
