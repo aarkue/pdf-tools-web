@@ -33,8 +33,11 @@ Extract and view or copy the text content of a PDF file, or individual pages.
 </p>
 
 
-
-
+### Automatically Crop PDF
+Crop PDF pages automatically to their content.
+<p align="center">
+<img style="display: block; width: 45%" src="https://github.com/aarkue/pdf-tools-web/assets/20766652/fe7cb33c-0d8e-4bb0-b3c0-92f82216ee63" alt="Gif of auto-crop feature"/>
+</p>
 
 ### Offline Use
 The web app hosted at **[https://pdf.wolke7.cloud](https://pdf.wolke7.cloud)** is a progressive web app (PWA).
