@@ -44,11 +44,12 @@ export default function ReorderPages() {
 
   useEffect(() => {
     if (file) {
-      const url = URL.createObjectURL(file);
-      getDocument(url).promise.then((doc) => {
-        setPDFDoc(doc);
-        setPageOrder([...Array(doc.numPages).keys()].map((i) => ({ id: i })));
-      });
+      file.arrayBuffer().then((ab) =>
+        getDocument(ab).promise.then((doc) => {
+          setPDFDoc(doc);
+          setPageOrder([...Array(doc.numPages).keys()].map((i) => ({ id: i })));
+        })
+      );
     }
   }, [file]);
 
@@ -69,7 +70,12 @@ export default function ReorderPages() {
       {pdfDoc && (
         <>
           <div className="w-full flex justify-center mb-2">
-            <Button isLoading={loading} size="lg" className="mt-1 bg-white dark:bg-slate-800" onClick={downloadReorderedPDF}>
+            <Button
+              isLoading={loading}
+              size="lg"
+              className="mt-1 bg-white dark:bg-slate-800"
+              onClick={downloadReorderedPDF}
+            >
               Download Result
             </Button>
           </div>
@@ -171,7 +177,12 @@ export default function ReorderPages() {
             ))}
           </ReactSortable>
           <div className="w-full flex justify-center my-2">
-            <Button isLoading={loading} size="lg" className="mt-1 bg-white dark:bg-slate-800" onClick={downloadReorderedPDF}>
+            <Button
+              isLoading={loading}
+              size="lg"
+              className="mt-1 bg-white dark:bg-slate-800"
+              onClick={downloadReorderedPDF}
+            >
               Download Result
             </Button>
           </div>
